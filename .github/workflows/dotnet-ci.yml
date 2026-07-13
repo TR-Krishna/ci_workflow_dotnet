@@ -36,13 +36,13 @@ jobs:
       - name: Test 
         run: dotnet test 
 
-      - name: Publish test results
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: 'Test Results'
-          path: '**/test-results.trx'
-          reporter: dotnet-trx
+      # - name: Publish test results
+      #   uses: dorny/test-reporter@v1
+      #   if: always()
+      #   with:
+      #     name: 'Test Results'
+      #     path: '**/test-results.trx'
+      #     reporter: dotnet-trx
 
       - name: Generate HTML coverage report
         if: always()
