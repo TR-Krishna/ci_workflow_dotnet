@@ -9,8 +9,6 @@ on:
 
 jobs:
   test:
-    # Use your self-hosted runner. Swap to `windows-latest` or `ubuntu-latest`
-    # if you just want to see this work with zero setup first.
     runs-on: self-hosted
 
     steps:
@@ -32,10 +30,12 @@ jobs:
 
       - name: Build
         run: dotnet build 
-
-      - name: Test 
-        run: dotnet test 
-
+      - name: Test
+        run: >
+          dotnet test tester.sln --no-build --configuration Release
+          --logger "trx;LogFileName=test-results.trx"
+          --collect:"XPlat Code Coverage"
+          --results-directory ./coverage
       # - name: Publish test results
       #   uses: dorny/test-reporter@v1
       #   if: always()
