@@ -30,14 +30,14 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore
-        run: dotnet restore DummyMeterApi.sln
+        run: dotnet restore tester.sln
 
       - name: Build
-        run: dotnet build DummyMeterApi.sln --no-restore --configuration Release
+        run: dotnet build tester.sln --no-restore --configuration Release
 
       - name: Test with coverage
         run: >
-          dotnet test DummyMeterApi.sln --no-build --configuration Release
+          dotnet test tester.sln --no-build --configuration Release
           --logger "trx;LogFileName=test-results.trx"
           --collect:"XPlat Code Coverage"
           --results-directory ./coverage
