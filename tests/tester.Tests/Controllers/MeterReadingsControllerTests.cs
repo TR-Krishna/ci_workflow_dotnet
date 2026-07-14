@@ -48,6 +48,22 @@ public class MeterReadingsControllerTests
         // Assert
         Assert.IsType<BadRequestObjectResult>(result.Result);
     }
+    [Fact]
+    public void Post_WithValidRequest_ReturnsCreatedAtAction()
+    {
+        // Arrange
+        var reading = new MeterReading { MeterId = "MTR-001", Value = 10, Timestamp = DateTime.UtcNow };
+        _serviceMock.Setup(s => s.RecordReading(reading.MeterId, reading.Value, reading.Timestamp))
+                    .Returns(reading);
+        // Act
+        var result = _sut.Post(new RecordReadingRequest(reading.MeterId, reading.Value, reading.Timestamp));
+        // Assert
+        var createdResult = Assert.IsType<CreatedAtActionResult>(result.Result);
+        Assert.Equal(nameof(MeterReadingsController.GetByMeterId), createdResult.ActionName);
+        Assert.Equal(reading.MeterId, createdResult.RouteValues["meterId"]);
+        var returnedReading = Assert.IsType<MeterReading>(createdResult.Value);
+        Assert.Equal(reading.MeterId, returnedReading.MeterId);
+    }
 
     // ---------- YOUR TURN ----------
 
